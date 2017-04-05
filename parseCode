@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>queryDecode</title>
+</head>
+<body>
+	<script>
+			function parseStr(query){
+				var result = {}
+				if(typeof query != 'string')return result;
+
+				var start = query.indexOf('?')
+				var str = query.substr(start+1)
+
+				var pairs = str.split('&')
+				var pair;
+				for(var i=0; i<pairs.length; i++){
+					pair = pairs[i].split('=')
+					var key = decodeURIComponent(pair[0]).replace(/\+/g,"");
+					var value = decodeURIComponent(pair[1]).replace(/\+/g,"");
+
+					if(!(key in result)){
+						result[key] = value
+					}
+					else if(Array.isArray(result[key])){
+						result[key].push(value)
+					}
+					else{
+						var arr = [result[key]]
+						arr.push(value)
+						result[key] = arr;
+					}
+				}
+				return result;
+			}
+			
+			console.log(parseStr('?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8&sourceid=chrome-iii'));
+
+		
+	</script>
+</body>
+</html>
