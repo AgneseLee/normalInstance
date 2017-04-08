@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		canvas{
+			
+			background-color: rgb(240,240,240);
+
+		}
+	</style>
+</head>
+<body>
+	<canvas id='_canvas'>
+		sorry, your broswer does not support html5!
+	</canvas>
+	<script>
+	
+		var can = document.getElementById('_canvas');
+
+		can.setAttribute('width',window.innerWidth)
+		can.setAttribute('height',window.innerHeight)
+
+		var ctx = can.getContext('2d')
+		ctx.strokeStyle = 'red'
+		ctx.lineCap = 'round'
+		ctx.lineWidth = 5;
+		var pos = []
+		var flag = false;
+
+
+		can.onmousedown = function(e){
+			var e = e||window.event;
+			console.log('lfl')
+			flag = true;
+			var mouseX = e.offsetX;
+			var mouseY = e.offsetY;
+			pos.push([mouseX,mouseY])
+			drawLine()
+		}
+
+		can.onmouseup = function(e){
+			var e = e||window.event;
+			flag = false;
+			ctx.closePath()
+			pos = [];
+		}
+
+		can.onmousemove = function(e){
+			var e = e||window.event;
+			if(flag == true){
+				var mouseX = e.offsetX;
+				var mouseY = e.offsetY;
+				pos.push([mouseX,mouseY])
+				drawLine()
+			}
+		}
+
+		function drawLine(){
+				ctx.beginPath()
+				ctx.moveTo(pos[0][0],pos[0][1])
+				if(pos.length==1){
+					ctx.lineTo(pos[0][0]+1,pos[0][1]+1)
+					ctx.closePath()
+				}else{
+					for(var i=0; i<pos.length; i++){
+						ctx.lineTo(pos[i][0]+1,pos[i][1]+1)
+					}
+				}
+				ctx.stroke()
+		}
+
+		
+	</script>
+</body>
+</html>
