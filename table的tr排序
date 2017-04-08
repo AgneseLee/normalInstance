@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<table id='myTable'>
+	  <tr>
+	    <th>Month</th>
+	    <th id="saving">Savings</th>
+	  </tr>
+	  <tr>
+	    <td>January</td>
+	    <td class="money">1000</td>
+	  </tr>
+	  <tr>
+	    <td>Febuary</td>
+	    <td class="money">10</td>
+	  </tr>
+	  <tr>
+	    <td>March</td>
+	    <td class="money">100</td>
+	  </tr>
+	</table>
+	<script>
+		var cache = []
+		var flag = true;
+		var item = document.getElementById('saving');
+		item.addEventListener('click',function(){
+			var docs = document.createDocumentFragment()
+			var tds = document.getElementsByClassName('money');
+			for(var i=0; i<tds.length; i++){
+				var tr = tds[i].parentNode;
+				tr.setAttribute('save',tds[i].innerText)
+				cache.push(parseInt(tds[i].innerText))
+			}
+
+			if(flag){
+				cache.sort(function(a,b){
+					flag = false;
+					return a-b;
+				})
+			}else{
+				flag = true;
+				cache.reverse()
+			}
+
+
+			for(var i=0; i<cache.length; i++){
+				var trtd = document.getElementsByTagName('tr');
+				for(var j=1; j<trtd.length; j++){
+					if(trtd[j].getAttribute('save')!=cache[i]){
+						continue;
+					}else{
+						docs.appendChild(trtd[j])
+					}
+				}
+				document.getElementById('myTable').appendChild(docs)
+			}
+			cache = [];
+		},false)
+		
+	</script>
+</body>
+</html>
