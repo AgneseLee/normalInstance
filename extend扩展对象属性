@@ -1,0 +1,26 @@
+function extend(tar,opt){
+		var src,copy,clone;
+		for(var name in opt){
+			src = tar[name]
+			copy = opt[name]
+
+			if(opt[name]==tar){
+				continue;
+			}
+
+			if(typeof copy == 'object' || Array.isArray(copy)){
+				if(typeof copy == 'object'){
+					clone = src||typeof src == 'object'?src:{}
+				}else{
+					clone = src||Array.isArray(copy)?src:[]
+				}
+				tar[name] = extend(clone,copy)
+			}else if(copy!=undefined){
+				tar[name] = copy;
+			}
+		}
+		return tar;
+	}
+	var a = {age:10,family:{father:'papa',mom:'lily'}}
+	var b = {age:1,sex:'femail'}
+	console.log(extend(b,a))
